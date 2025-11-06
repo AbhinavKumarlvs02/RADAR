@@ -1,0 +1,183 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Land Allocation Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>📍 AI-Powered Land Allocation Tool</h1>
+    </header>
+    
+    <main>
+        <div class="controls">
+            <h3>Select Plot</h3>
+            <label for="image-id">Enter Image Plot ID (1-203):</label>
+            <input type="number" id="image-id" min="1" max="203" value="1">
+            <button id="load-image-btn">Load Image Plot</button>
+            
+            <span class="or-divider">or</span>
+            
+            <div class="file-upload-wrapper">
+                <label for="upload-image-input" class="file-upload-btn">Add Plot</label>
+                <span id="file-name-display">No new plot added</span>
+                <input type="file" id="upload-image-input" accept="image/jpeg, image/png">
+            </div>
+            <input type="checkbox" id="show-mask-toggle">
+            <label for="show-mask-toggle">Show Ground Truth Mask</label>
+        </div>
+
+        <div class="content-area">
+            <div id="image-display">
+                <p class="placeholder-text">Please load an image plot to begin.</p>
+            </div>
+            
+            <div id="sidebar">
+                <h3>✅ Allocation Check</h3>
+                <div id="result-message" class="result-info">
+                    Select a sub-plot to check...
+                </div>
+
+                <h3>🔬 Detailed Information</h3>
+                <div id="debug-info" class="stats-box">
+                    <p>N/A</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
+ -->
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="AI-Powered Land Allocation Decision Support System">
+    <meta name="theme-color" content="#0f172a">
+    <title>EcoPlanner | Decision Support</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <header class="app-header">
+            <div class="app-brand">
+                <svg class="app-logo" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                <h1 class="text-base font-bold tracking-tight">EcoPlanner <span class="text-primary">AI</span></h1>
+            </div>
+            <div class="app-status">
+                <span class="status-dot status-dot--online"></span> System Operational
+            </div>
+        </header>
+        
+        <main class="app-body">
+            <section class="toolbar" aria-labelledby="toolbar-title">
+                <h2 id="toolbar-title" class="visually-hidden">Data Controls</h2>
+                
+                <div class="toolbar-group">
+                    <label for="image-id" class="input-label">Database Record ID</label>
+                    <div class="input-action-group">
+                        <input type="number" id="image-id" class="input-field" min="1" max="203" placeholder="e.g., 147" aria-describedby="id-help">
+                        <button id="load-image-btn" class="btn btn--primary" aria-label="Load plot from database">
+                            <svg class="icon-sm" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                            Load
+                        </button>
+                    </div>
+                </div>
+
+                <div class="toolbar-divider" role="separator" aria-orientation="vertical">OR</div>
+
+                <div class="toolbar-group">
+                    <span class="input-label">External Data Source</span>
+                    <div class="file-upload">
+                        <input type="file" id="upload-image-input" class="file-upload__hidden" accept="image/jpeg, image/png">
+                        <label for="upload-image-input" class="btn btn--secondary file-upload__trigger" tabindex="0">
+                            <svg class="icon-sm" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                            Upload Image
+                        </label>
+                        <span id="file-name-display" class="file-upload__name">No file selected</span>
+                    </div>
+                </div>
+
+                <div class="toolbar-spacer"></div>
+
+                <div class="toolbar-group">
+                    <span class="input-label" id="mask-toggle-label">Overlay Layer</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="show-mask-toggle" disabled aria-labelledby="mask-toggle-label">
+                        <span class="toggle-switch__slider" aria-hidden="true"></span>
+                        <span class="toggle-switch__label">Ground Truth</span>
+                    </label>
+                </div>
+            </section>
+
+            <div class="workspace-grid">
+                <section class="viewport-card" aria-label="Satellite Imagery Viewport">
+                    <div id="image-display" class="viewport-content">
+                        <div class="empty-state is-active" id="initial-empty-state">
+                            <svg class="empty-state__icon" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                            <h3 class="empty-state__title">Awaiting Input</h3>
+                            <p class="empty-state__text">Load a database record or upload a new satellite image to begin analysis.</p>
+                        </div>
+                        <div class="loading-overlay" id="image-loading-overlay">
+                            <div class="spinner"></div>
+                            <p>Loading image...</p>
+                        </div>
+                    </div>
+                </section>
+
+                <aside class="sidebar" aria-label="Analysis Results">
+                    <div class="card card--interactive">
+                        <div class="card__header">
+                            <h3 class="card__title">Allocation Decision</h3>
+                            <span class="card__hint">AI Recommendation</span>
+                        </div>
+                        <div class="card__body">
+                            <div id="result-message" class="status-banner status-banner--neutral" role="status" aria-live="polite">
+                                Select a grid sector to initiate AI analysis.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card--interactive">
+                        <div class="card__header">
+                            <h3 class="card__title">Environmental Metrics</h3>
+                            <span class="card__hint">Sector Details</span>
+                        </div>
+                        <div id="debug-info" class="card__body metrics-list">
+                            <div class="empty-state text-center is-active" id="metrics-empty-state">
+                                <svg class="empty-state__icon-sm" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                    <path d="M9 19V6l12-3v13M9 19C4.75 19 2 17 2 14c0-3 2.75-5 7-5s7 2 7 5c0 3-2.75 5-7 5z"></path>
+                                </svg>
+                                <p class="text-muted">No active selection.</p>
+                            </div>
+                            <div class="loading-skeleton" id="metrics-loading-skeleton">
+                                <div class="skeleton-line skeleton-line--lg"></div>
+                                <div class="skeleton-line"></div>
+                                <div class="skeleton-line"></div>
+                                <div class="skeleton-line skeleton-line--sm"></div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

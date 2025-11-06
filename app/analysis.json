@@ -1,0 +1,12 @@
+{
+  "global_stats": {
+    "Building": 397158262,
+    "Road": 9511196,
+    "Land": 491211891,
+    "Unlabeled": 25938157,
+    "Water": 13947150,
+    "Vegetation": 604943266,
+    "Other": 103194192
+  },
+  "image_data": {}
+}
