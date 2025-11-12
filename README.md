@@ -6,4 +6,4 @@ This project uses deep learning (U-Net model) for **semantic segmentation** of s
 
 The dataset used for this project can be downloaded from the link below:
 
-🔗 **[Download Dataset Here]([https://your-dataset-link.com](https://www.kaggle.com/datasets/hammadjavaid/multi-source-satellite-imagery-for-segmentation))**
+🔗 **([https://your-dataset-link.com](https://www.kaggle.com/datasets/hammadjavaid/multi-source-satellite-imagery-for-segmentation))**
